@@ -1,12 +1,15 @@
 # chartjs-adapter-date-fns
 
-[![release](https://img.shields.io/github/release/chartjs/chartjs-adapter-date-fns.svg?style=flat-square)](https://github.com/chartjs/chartjs-adapter-date-fns/releases/latest) [![travis](https://img.shields.io/travis/chartjs/chartjs-adapter-date-fns.svg?style=flat-square&maxAge=60)](https://travis-ci.org/chartjs/chartjs-adapter-date-fns) [![awesome](https://awesome.re/badge-flat2.svg)](https://github.com/chartjs/awesome)
+[![release](https://img.shields.io/github/release/chartjs/chartjs-adapter-date-fns.svg?style=flat-square)](https://github.com/chartjs/chartjs-adapter-date-fns/releases/latest)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/chartjs/chartjs-adapter-date-fns/ci.yml?branch=master&style=flat-square)](https://github.com/chartjs/chartjs-adapter-date-fns/actions/workflows/ci.yml?query=branch%3Amaster)
+[![Coverage](https://img.shields.io/coveralls/chartjs/chartjs-adapter-date-fns.svg?style=flat-square&maxAge=600)](https://coveralls.io/github/chartjs/chartjs-adapter-date-fns?branch=master)
+[![awesome](https://awesome.re/badge-flat2.svg)](https://github.com/chartjs/awesome)
 
 ## Overview
 
 This adapter allows the use of date-fns with Chart.js.
 
-Requires [Chart.js](https://github.com/chartjs/Chart.js/releases) **2.8.0** or later and [date-fns](https://date-fns.org/) **2.0.0** or later.
+Requires [Chart.js](https://www.chartjs.org/) **2.8.0** or later, [date-fns](https://date-fns.org/) **4.0.0** or later and [@date-fns/tz](https://date-fns.org/docs/Time-Zones) **1.0.0** or later.
 
 **Note:** once loaded, this adapter overrides the default date-adapter provided in Chart.js (as a side-effect).
 
@@ -15,7 +18,7 @@ Requires [Chart.js](https://github.com/chartjs/Chart.js/releases) **2.8.0** or l
 ### npm
 
 ```bash
-npm install date-fns chartjs-adapter-date-fns --save
+npm install @date-fns/tz date-fns chartjs-adapter-date-fns --save
 ```
 
 ```javascript
@@ -43,21 +46,23 @@ date-fns requires a date-fns locale object to be tagged on to each `format()` ca
 For example:
 
 ```javascript
-// import date-fns locale:
+// Import date-fns locale object
 import {de} from 'date-fns/locale';
 
-
-// scale options:
+// Scale options
 {
-    adapters: {
-        date: {
-            locale: de
-        }
+  adapters: {
+    date: {
+      locale: de                    // Optional: defaults to browser locale
+      timezone: 'Europe/Berlin',    // Optional: defaults to browser timezone
+
+      hour12: false                 // Optional: Additional Intl.DateTimeFormatOptions
     }
+  }
 }
 ```
 
-Further, read the [Chart.js documentation](https://www.chartjs.org/docs/next) for other possible date/time related options. For example, the time scale [`time.*` options](https://www.chartjs.org/docs/next/axes/cartesian/time#configuration-options) can be overridden using the [date-fns tokens](https://date-fns.org/docs/format).
+Further, read the [Chart.js documentation](https://www.chartjs.org/docs/latest/) for other possible date/time related options. For example, the time scale [`time.*` options](https://www.chartjs.org/docs/latest/axes/cartesian/time.html#configuration-options) can be overridden using the [date-fns token](https://date-fns.org/docs/format).
 
 ## Development
 

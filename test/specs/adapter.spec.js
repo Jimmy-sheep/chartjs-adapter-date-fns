@@ -1,32 +1,136 @@
-describe('date-fns adapter', function() {
-  it('should format correctly using format presets', function() {
-    const adapter = new Chart._adapters._date({timeZone: 'UTC'});
-    expect(adapter).toBeDefined();
+import {de} from 'date-fns/locale';
 
-    const formats = adapter.formats();
-    expect(formats).toEqual({
-      datetime: 'MMM d, yyyy, h:mm:ss aaaa',
-      millisecond: 'h:mm:ss.SSS aaaa',
-      second: 'h:mm:ss aaaa',
-      minute: 'h:mm aaaa',
-      hour: 'ha',
-      day: 'MMM d',
-      week: 'PP',
-      month: 'MMM yyyy',
-      quarter: 'qqq - yyyy',
-      year: 'yyyy'
+describe('date-fns adapter', function() {
+
+  it('should accept using default locale and timezone', function() {
+    const chart = acquireChart({
+      type: 'line',
+      data: {
+        datasets: [{
+          data: [{
+            x: 0,
+            y: 100
+          }]
+        }]
+      },
+      options: {
+        scales: {
+          x: {
+            type: 'time',
+            time: {
+              unit: 'second',
+            },
+            ticks: {
+              source: 'data'
+            }
+          }
+        }
+      }
     });
 
-    const timestamp = adapter.parse('2019-05-28T15:10:27.000');
-    expect(adapter.format(timestamp, formats.year)).toEqual('2019');
-    expect(adapter.format(timestamp, formats.quarter)).toEqual('Q2 - 2019');
-    expect(adapter.format(timestamp, formats.month)).toEqual('May 2019');
-    expect(adapter.format(timestamp, formats.week)).toEqual('May 28, 2019');
-    expect(adapter.format(timestamp, formats.day)).toEqual('May 28');
-    expect(adapter.format(timestamp, formats.hour)).toEqual('3PM');
-    expect(adapter.format(timestamp, formats.minute)).toEqual('3:10 p.m.');
-    expect(adapter.format(timestamp, formats.second)).toEqual('3:10:27 p.m.');
-    expect(adapter.format(timestamp, formats.millisecond)).toEqual('3:10:27.000 p.m.');
-    expect(adapter.format(timestamp, formats.datetime)).toEqual('May 28, 2019, 3:10:27 p.m.');
+    expect(chart.scales.x.ticks[0].label).toEqual('12:00:00 AM');
+  });
+
+  it('should accept locale from chart configuration', function() {
+    const chart = acquireChart({
+      type: 'line',
+      data: {
+        datasets: [{
+          data: [{
+            x: 0,
+            y: 100
+          }]
+        }]
+      },
+      options: {
+        scales: {
+          x: {
+            type: 'time',
+            time: {
+              unit: 'second',
+            },
+            adapters: {
+              date: {
+                locale: de,
+              }
+            },
+            ticks: {
+              source: 'data'
+            }
+          }
+        }
+      }
+    });
+
+    expect(chart.scales.x.ticks[0].label).toEqual('00:00:00');
+  });
+
+  it('should accept timezone from chart configuration', function() {
+    const chart = acquireChart({
+      type: 'line',
+      data: {
+        datasets: [{
+          data: [{
+            x: 0,
+            y: 100
+          }]
+        }]
+      },
+      options: {
+        scales: {
+          x: {
+            type: 'time',
+            time: {
+              unit: 'second',
+            },
+            adapters: {
+              date: {
+                timezone: 'Europe/Berlin',
+              }
+            },
+            ticks: {
+              source: 'data'
+            }
+          }
+        }
+      }
+    });
+
+    expect(chart.scales.x.ticks[0].label).toEqual('1:00:00 AM');
+  });
+
+  it('should accept timezone and locale configuration', function() {
+    const chart = acquireChart({
+      type: 'line',
+      data: {
+        datasets: [{
+          data: [{
+            x: 0,
+            y: 100,
+          }]
+        }]
+      },
+      options: {
+        scales: {
+          x: {
+            type: 'time',
+            time: {
+              unit: 'second',
+            },
+            adapters: {
+              date: {
+                timezone: 'Europe/Berlin',
+                locale: de,
+              }
+            },
+            ticks: {
+              source: 'data',
+            }
+          }
+        }
+      }
+    });
+
+    expect(chart.scales.x.ticks[0].label).toEqual('01:00:00');
   });
 });
