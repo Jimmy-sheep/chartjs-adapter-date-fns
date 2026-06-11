@@ -13,10 +13,12 @@ const banner = `/*!
 
 const input = 'src/index.js';
 const external = [
+  '@date-fns/tz',
   'chart.js',
   'date-fns'
 ];
 const globals = {
+  '@date-fns/tz': 'dateFnsTz',
   'chart.js': 'Chart',
   'date-fns': 'dateFns'
 };

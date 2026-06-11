@@ -43,21 +43,23 @@ date-fns requires a date-fns locale object to be tagged on to each `format()` ca
 For example:
 
 ```javascript
-// import date-fns locale:
+// Import date-fns locale object
 import {de} from 'date-fns/locale';
 
-
-// scale options:
+// Scale options
 {
-    adapters: {
-        date: {
-            locale: de
-        }
+  adapters: {
+    date: {
+      locale: de                // Optional: defaults to browser locale
+      timeZone: 'Europe/Berlin',  // Optional: defaults to browser timezone
+
+      hour12: false             // Optional: Other Intl.DateTimeFormatOptions
     }
+  }
 }
 ```
 
-Further, read the [Chart.js documentation](https://www.chartjs.org/docs/next) for other possible date/time related options. For example, the time scale [`time.*` options](https://www.chartjs.org/docs/next/axes/cartesian/time#configuration-options) can be overridden using the [date-fns tokens](https://date-fns.org/docs/format).
+Further, read the [Chart.js documentation](https://www.chartjs.org/docs/latest/) for other possible date/time related options. For example, the time scale [`time.*` options](https://www.chartjs.org/docs/latest/axes/cartesian/time.html#configuration-options) can be overridden using the [date-fns token](https://date-fns.org/docs/format).
 
 ## Development
 

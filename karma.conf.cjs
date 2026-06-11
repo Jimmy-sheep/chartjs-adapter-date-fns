@@ -1,5 +1,6 @@
 const istanbul = require('rollup-plugin-istanbul');
 const resolve = require('@rollup/plugin-node-resolve').default;
+const commonjs = require('@rollup/plugin-commonjs');
 const yargs = require('yargs');
 const env = process.env.NODE_ENV;
 
@@ -19,6 +20,7 @@ module.exports = async function(karma) {
   if (env === 'test') {
     build.plugins = [
       resolve(),
+      commonjs(),
       istanbul({exclude: ['node_modules/**/*.js', 'package.json']})
     ];
   }
@@ -69,6 +71,7 @@ module.exports = async function(karma) {
     rollupPreprocessor: {
       plugins: [
         resolve(),
+        commonjs(),
       ],
       output: {
         name: 'test',
